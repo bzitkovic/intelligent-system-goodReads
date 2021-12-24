@@ -1,49 +1,58 @@
-import pandas
-from models import Book
+from pandas import DataFrame
 import matplotlib.pyplot as plt
-import numpy as np
+from numpy import arange, around
 
-def GetHeatMap(df):
-    corr = df.corr()
+
+def get_heat_map(dataframe):
+    corr = dataframe.corr()
     fig, ax = plt.subplots()
     im = ax.imshow(corr.values)
 
-    ax.set_xticks(np.arange(len(corr.columns)))
-    ax.set_yticks(np.arange(len(corr.columns)))
+    ax.set_xticks(arange(len(corr.columns)))
+    ax.set_yticks(arange(len(corr.columns)))
     ax.set_xticklabels(corr.columns)
     ax.set_yticklabels(corr.columns)
 
     # Rotate the tick labels and set their alignment.
-    plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
-         rotation_mode="anchor")
+    plt.setp(ax.get_xticklabels(), rotation=25, ha="right", rotation_mode="anchor")
 
     for i in range(len(corr.columns)):
         for j in range(len(corr.columns)):
-            text = ax.text(j, i, np.around(corr.iloc[i, j], decimals=2),
-                       ha="center", va="center", color="black")
+            ax.text(
+                j,
+                i,
+                around(corr.iloc[i, j], decimals=2),
+                ha="center",
+                va="center",
+                color="black",
+            )
+
     plt.show()
 
-def GetBoxPlot(df, columnName):
-    if(columnName == 'rating'):
-        df.boxplot(column=['rating'], grid=False, showfliers=False)
-    elif(columnName == 'reviews'):
-        df.boxplot(column=['reviews'], grid=False, showfliers=False)
+
+def get_box_plot(dataframe, columnName):
+    if columnName == "rating":
+        dataframe.boxplot(column=["rating"], grid=False, showfliers=False)
+    elif columnName == "reviews":
+        dataframe.boxplot(column=["reviews"], grid=False, showfliers=False)
     else:
-        df.boxplot(column=['totalratings'], grid=False, showfliers=False)
+        dataframe.boxplot(column=["totalratings"], grid=False, showfliers=False)
+
     plt.show()
 
-def GetHistogramGenres(books):
+
+def get_histogram_genres(books):
     genres = {}
 
     for book in books:
-        for genre in book.genre:  
-            if(genre not in genres.keys()):           
+        for genre in book.genre:
+            if genre not in genres.keys():
                 genres[genre] = 1
             else:
                 genres[genre] += 1
 
-    sortedGenres = sorted(genres.items(), key=lambda item: item[1], reverse=True)[:8]
-    dfGenres = pandas.DataFrame(sortedGenres, columns=['Genre', 'Frequency'])
-    dfGenres.plot(kind='bar', x='Genre')
+    sorted_genres = sorted(genres.items(), key=lambda item: item[1], reverse=True)[:8]
+    dataframe_genres = DataFrame(sorted_genres, columns=["Genre", "Frequency"])
+    dataframe_genres.plot(kind="bar", x="Genre")
 
     plt.show()
