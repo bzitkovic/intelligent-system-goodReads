@@ -1,6 +1,7 @@
 from pandas import DataFrame
 import matplotlib.pyplot as plt
 from numpy import arange, around
+import tabloo
 
 
 def get_heat_map(dataframe):
@@ -56,3 +57,8 @@ def get_histogram_genres(books):
     dataframe_genres.plot(kind="bar", x="Genre")
 
     plt.show()
+
+def get_tabloo_table(window, dataframe):
+    window.destroy()    
+    tabloo.show(dataframe)
+   

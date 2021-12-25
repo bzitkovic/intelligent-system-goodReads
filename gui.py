@@ -1,94 +1,211 @@
 from tkinter import Tk, Entry, Label, Button
-from visualization import get_box_plot, get_heat_map, get_histogram_genres
+from visualization import get_box_plot, get_heat_map, get_histogram_genres, get_tabloo_table
 
-
-def SetGUI(books, df):
+def set_gui(books, dataframe):
     window = Tk()
     window.title("Good Reads")
 
-    entNumberOfPages = Entry(window, width=15)
-    entNumberOfPages.grid(row=1, column=0, padx=25, pady=10, sticky="W")
+    ent_number_of_pages = Entry(
+        window,
+        width=15
+    )
+    
+    ent_number_of_pages.grid(
+        row=1,
+        column=0, 
+        padx=25, 
+        pady=10, 
+        sticky="W"
+    )
 
-    lblNumber = Label(window, font=("Ariel", 12), bg="#7878ab", text="Number of pages:")
-    lblNumber.grid(row=0, column=0, padx=20, sticky="W")
+    lbl_number = Label(
+        window, 
+        font=(
+            "Ariel", 
+            12
+        ), 
+        bg="#7878ab", 
+        text="Number of pages:"
+    )
 
-    btnGetNumberOfPages = Button(
+    lbl_number.grid(
+        row=0, 
+        column=0, 
+        padx=20, 
+        sticky="W"
+    )
+
+    btn_get_number_of_pages = Button(
         window,
         text="➔",
         width=6,
         bd=3,
         bg="#78ab7c",
-        command=lambda: get_heat_map(df),
+        command=lambda: get_heat_map(dataframe),
     )
-    btnGetNumberOfPages.grid(row=1, column=1)
 
-    lblGetHeatMap = Label(window, font=("Ariel", 12), bg="#7878ab", text="Get heat map")
-    lblGetHeatMap.grid(row=2, column=0, padx=20, pady=10, sticky="W")
+    btn_get_number_of_pages.grid(
+        row=1, 
+        column=1
+    )
 
-    btnGetHeatMap = Button(
+    lbl_get_heat_map = Label(
+        window, 
+        font=(
+            "Ariel", 
+            12
+        ), 
+        bg="#7878ab", 
+        text="Get heat map"
+    )
+
+    lbl_get_heat_map.grid(
+        row=2, 
+        column=0, 
+        padx=20, 
+        pady=10, 
+        sticky="W"
+    )
+
+    btn_get_heat_map = Button(
         window,
         text="➔",
         width=6,
         bd=3,
         bg="#78ab7c",
-        command=lambda: get_heat_map(df),
+        command=lambda: get_heat_map(dataframe),
     )
-    btnGetHeatMap.grid(row=2, column=1)
 
-    lblGetBoxplotRating = Label(
-        window, font=("Ariel", 12), bg="#7878ab", text="Get boxplot for rating"
+    btn_get_heat_map.grid(
+        row=2, 
+        column=1
     )
-    lblGetBoxplotRating.grid(row=3, column=0, padx=20, pady=10, sticky="W")
 
-    btnGetBoxplotRating = Button(
+    lbl_get_boxplot_rating = Label(
+        window, 
+        font=(
+            "Ariel",
+             12
+        ), 
+        bg="#7878ab", 
+        text="Get boxplot for rating"
+    )
+
+    lbl_get_boxplot_rating.grid(
+        row=3, 
+        column=0, 
+        padx=20, 
+        pady=10, 
+        sticky="W"
+    )
+
+    btn_get_boxplot_rating = Button(
         window,
         text="➔",
         width=6,
         bd=3,
         bg="#78ab7c",
-        command=lambda: get_box_plot(df, "rating"),
+        command=lambda: get_box_plot(
+            dataframe,
+            "rating"
+        ),
     )
-    btnGetBoxplotRating.grid(row=3, column=1)
 
-    lblGetBoxplotReviews = Label(
-        window, font=("Ariel", 12), bg="#7878ab", text="Get boxplot for reviews"
+    btn_get_boxplot_rating.grid(
+        row=3,
+        column=1
     )
-    lblGetBoxplotReviews.grid(row=4, column=0, padx=20, pady=10, sticky="W")
 
-    btnGetBoxplotReviews = Button(
+    lbl_get_boxplot_reviews = Label(
+        window, 
+        font=(
+            "Ariel", 
+            12
+        ), 
+        bg="#7878ab", 
+        text="Get boxplot for reviews"
+    )
+
+    lbl_get_boxplot_reviews.grid(
+        row=4, 
+        column=0, 
+        padx=20, 
+        pady=10, 
+        sticky="W"
+    )
+
+    btn_get_boxplot_reviews = Button(
         window,
         text="➔",
         width=6,
         bd=3,
         bg="#78ab7c",
-        command=lambda: get_box_plot(df, "reviews"),
+        command=lambda: get_box_plot(
+            dataframe, 
+            "reviews"
+        ),
     )
-    btnGetBoxplotReviews.grid(row=4, column=1, padx=20, pady=10)
 
-    lblGetBoxplotTotalRatings = Label(
+    btn_get_boxplot_reviews.grid(
+        row=4, 
+        column=1, 
+        padx=20, 
+        pady=10
+    )
+
+    lbl_get_boxplot_total_ratings = Label(
         window,
         font=("Ariel", 12),
         bg="#7878ab",
         text="Get boxplot for total ratings",
     )
-    lblGetBoxplotTotalRatings.grid(row=5, column=0, padx=20, pady=10, sticky="W")
 
-    btnGetBoxplotTotalRatings = Button(
+    lbl_get_boxplot_total_ratings.grid(
+        row=5, 
+        column=0, 
+        padx=20, 
+        pady=10, 
+        sticky="W"
+    )
+
+    btn_get_boxplot_total_ratings = Button(
         window,
         text="➔",
         width=6,
         bd=3,
         bg="#78ab7c",
-        command=lambda: get_box_plot(df, "totalratings"),
+        command=lambda: get_box_plot(
+            dataframe,
+            "totalratings"
+        ),
     )
-    btnGetBoxplotTotalRatings.grid(row=5, column=1, padx=20, pady=10)
 
-    lblGetTopGenres = Label(
-        window, font=("Ariel", 12), bg="#7878ab", text="Get top 8 genres"
+    btn_get_boxplot_total_ratings.grid(
+        row=5,
+        column=1,
+        padx=20, 
+        pady=10
     )
-    lblGetTopGenres.grid(row=6, column=0, padx=20, pady=10, sticky="W")
 
-    btnGetTopGenres = Button(
+    lbl_get_top_genres = Label(
+        window, 
+        font=(
+            "Ariel",
+            12
+        ), 
+        bg="#7878ab", 
+        text="Get top 8 genres"
+    )
+
+    lbl_get_top_genres.grid(
+        row=6, 
+        column=0, 
+        padx=20, 
+        pady=10, 
+        sticky="W"
+    )
+
+    btn_get_top_genres = Button(
         window,
         text="➔",
         width=6,
@@ -96,6 +213,46 @@ def SetGUI(books, df):
         bg="#78ab7c",
         command=lambda: get_histogram_genres(books),
     )
-    btnGetTopGenres.grid(row=6, column=1, padx=20, pady=10)
+
+    btn_get_top_genres.grid(
+        row=6, 
+        column=1, 
+        padx=20, 
+        pady=10
+    )
+
+    lbl_get_tabloo_table = Label(
+        window, 
+        font=(
+            "Ariel",
+            12
+        ), 
+        bg="#7878ab", 
+        text="Get table for data"
+    )
+
+    lbl_get_tabloo_table.grid(
+        row=7, 
+        column=0, 
+        padx=20, 
+        pady=10, 
+        sticky="W"
+    )
+
+    btn_get_tabloo_table = Button(
+        window,
+        text="➔",
+        width=6,
+        bd=3,
+        bg="#78ab7c",
+        command=lambda: get_tabloo_table( window, dataframe),
+    )
+
+    btn_get_tabloo_table.grid(
+        row=7, 
+        column=1, 
+        padx=20, 
+        pady=10
+    )
 
     return window

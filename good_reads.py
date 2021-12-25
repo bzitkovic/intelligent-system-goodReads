@@ -2,6 +2,8 @@ from pandas import read_csv
 from models import Book
 from gui import *
 
+from decision_tree_model import predict_totalratings
+
 dataframe = read_csv("GoodReadsData.csv", delimiter=",")
 
 # Remove all rows that contain NULL values
@@ -39,7 +41,17 @@ for index, row in dataframe.iterrows():
     books.append(new_book)
 
 if __name__ == "__main__":
-    gui = SetGUI(books, dataframe)
-    gui.geometry("550x300")
-    gui.configure(bg="#7878ab")
+    total_rating = predict_totalratings() 
+
+    #above_total_rating = dataframe[(dataframe['totalratings'] > total_rating) & (dataframe['reviews'] == 1214)]                      
+
+    gui = set_gui(
+        books, 
+        dataframe
+    )
+    gui.geometry('550x400')
+    gui.configure(bg='#7878ab')
     gui.mainloop()
+    
+
+
