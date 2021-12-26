@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 from numpy import arange, around
 import tabloo
 
-
 def get_heat_map(dataframe):
     corr = dataframe.corr()
     fig, ax = plt.subplots()
