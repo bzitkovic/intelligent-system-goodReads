@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from numpy import arange, around
 import tabloo
 
+
 def get_heat_map(dataframe):
     corr = dataframe.corr()
     fig, ax = plt.subplots()
@@ -57,7 +58,7 @@ def get_histogram_genres(books):
 
     plt.show()
 
+
 def get_tabloo_table(window, dataframe):
-    window.destroy()    
+    window.destroy()
     tabloo.show(dataframe)
-   

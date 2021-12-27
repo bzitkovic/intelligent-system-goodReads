@@ -10,7 +10,7 @@ class Book:
     isbn: str
     link: str
     pages: int
-    rating: int
-    reviews: str
+    rating: float
+    reviews: int
     title: str
-    total_ratings: str
+    total_ratings: int
