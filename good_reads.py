@@ -1,8 +1,7 @@
 from pandas import read_csv
 from models import Book
 from gui import *
-
-from decision_tree_model import predict_totalratings
+from decision_tree_model import predict_total_ratings
 
 dataframe = read_csv("GoodReadsData.csv", delimiter=",")
 
@@ -41,17 +40,11 @@ for index, row in dataframe.iterrows():
     books.append(new_book)
 
 if __name__ == "__main__":
-    total_rating = predict_totalratings() 
+    total_rating = predict_total_ratings()
 
-    #above_total_rating = dataframe[(dataframe['totalratings'] > total_rating) & (dataframe['reviews'] == 1214)]                      
+    # above_total_rating = dataframe[(dataframe['totalratings'] > total_rating) & (dataframe['reviews'] == 1214)]
 
-    gui = set_gui(
-        books, 
-        dataframe
-    )
-    gui.geometry('550x400')
-    gui.configure(bg='#7878ab')
+    gui = set_gui(books, dataframe)
+    gui.geometry("800x400")
+    gui.configure(bg="#7878ab")
     gui.mainloop()
-    
-
-
