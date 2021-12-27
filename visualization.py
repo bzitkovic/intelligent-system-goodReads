@@ -1,7 +1,8 @@
 from pandas import DataFrame
 import matplotlib.pyplot as plt
 from numpy import arange, around
-import tabloo
+from tabloo import show
+from threading import Thread
 
 
 def get_heat_map(dataframe):
@@ -59,6 +60,6 @@ def get_histogram_genres(books):
     plt.show()
 
 
-def get_tabloo_table(window, dataframe):
-    window.destroy()
-    tabloo.show(dataframe)
+def get_tabloo_table(dataframe):
+    new_thead = Thread(target=show, args=[dataframe])
+    new_thead.start()

@@ -223,7 +223,7 @@ def set_gui(books, dataframe):
         width=6,
         bd=3,
         bg="#78ab7c",
-        command=lambda: get_tabloo_table(window, dataframe),
+        command=lambda: get_tabloo_table(dataframe),
     )
 
     btn_get_tabloo_table.grid(row=5, column=1, padx=20, pady=10)
