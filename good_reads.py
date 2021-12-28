@@ -1,7 +1,8 @@
 from pandas import read_csv
 from models import Book
-from gui import *
+from gui import GUI
 from decision_tree_model import predict_total_ratings
+from tkinter import Tk
 
 dataframe = read_csv("GoodReadsData.csv", delimiter=",")
 
@@ -44,7 +45,6 @@ if __name__ == "__main__":
 
     # above_total_rating = dataframe[(dataframe['totalratings'] > total_rating) & (dataframe['reviews'] == 1214)]
 
-    gui = set_gui(books, dataframe)
-    gui.geometry("800x400")
-    gui.configure(bg="#7878ab")
-    gui.mainloop()
+    window = Tk()
+    gui = GUI(window, books, dataframe)
+    gui.window.mainloop()
