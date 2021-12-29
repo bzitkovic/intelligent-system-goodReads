@@ -2,6 +2,7 @@ from pandas import DataFrame
 import matplotlib.pyplot as plt
 from numpy import arange, around
 from tabloo import show
+from sklearn.tree import plot_tree
 from threading import Thread
 
 
@@ -63,3 +64,9 @@ def get_histogram_genres(books):
 def get_tabloo_table(dataframe):
     new_thead = Thread(target=show, args=[dataframe])
     new_thead.start()
+
+
+def get_decision_tree(clf, feature_columns):
+    plt.figure(figsize=(10, 5), tight_layout=True)
+    plot_tree(clf, feature_names=feature_columns, filled=True)
+    plt.show()

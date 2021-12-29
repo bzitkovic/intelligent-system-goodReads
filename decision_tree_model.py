@@ -1,41 +1,85 @@
-attribute_names = ["rating", "total_ratings", "pages", "reviews"]
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn import metrics
+from sklearn.model_selection import KFold, cross_val_score
 
 
-def predict_total_ratings(rating=3.45, reviews=500):
-    if reviews is None:
-        return 3057.92511
-    if reviews > 20929:
-        return 865773.50602
-    if reviews <= 20929:
-        if reviews > 3864:
-            if reviews > 10467:
-                return 257578.80909
-            if reviews <= 10467:
-                return 102746.9724
-        if reviews <= 3864:
-            if reviews > 1029:
-                if reviews > 2071:
-                    return 44819.62216
-                if reviews <= 2071:
-                    if reviews > 1451:
-                        return 24992.91149
-                    if reviews <= 1451:
-                        return 17208.31345
-            if reviews <= 1029:
-                if reviews > 293:
-                    if reviews > 603:
-                        if rating is None:
-                            return 11155.58861
-                        if rating > 395:
-                            return 13485.22924
-                        if rating <= 395:
-                            return 9401.83862
-                    if reviews <= 603:
-                        if rating is None:
-                            return 5795.94208
-                        if rating > 399:
-                            return 7425.88305
-                        if rating <= 399:
-                            return 4879.85266
-                if reviews <= 293:
-                    return 534.21444
+feature_columns = ["rating_new", "pages_new", "reviews_new"]
+
+
+def make_decision_tree(dataframe):
+    arrange_data(dataframe)
+
+    X = dataframe[feature_columns]  # Features
+    y = dataframe["totalratings_new"]  # Target variable
+
+    # Split dataset into training set and test set
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.3, random_state=1
+    )  # 70% training and 30% test
+
+    # Do the cross-validation
+    decision_tree_cross_validation(X_train, y_train)
+
+    # Create Decision Tree classifer object
+    clf = DecisionTreeClassifier(max_depth=3)
+
+    # Train Decision Tree Classifer
+    clf = clf.fit(X_train, y_train)
+
+    # Predict the response for test dataset
+    y_pred = clf.predict(X_test)
+
+    print("Accuracy:", metrics.accuracy_score(y_test, y_pred))
+
+    return clf
+
+
+def make_prediction_total_rating(clf, dataframe):
+    print(clf.predict(dataframe[feature_columns]))
+
+
+def decision_tree_cross_validation(X, y):
+    max_depth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+    kf = KFold(n_splits=5, shuffle=True, random_state=42)
+
+    cnt = 1
+    # Split the dataset into 5 folds
+    for train_index, test_index in kf.split(X, y):
+        print(f"Fold:{cnt}, Train set: {len(train_index)}, Test set:{len(test_index)}")
+        cnt += 1
+
+    # Calculate the accuracy for each fold and overall accuracy
+    score = cross_val_score(DecisionTreeClassifier(random_state=42), X, y, cv=kf, scoring="accuracy")
+    print(f"Scores for each fold are: {score}")
+    print(f'Average score: {"{:.2f}".format(score.mean())}')
+
+    # Calculate the average score for chosing max depth
+    for val in max_depth:
+        score = cross_val_score(DecisionTreeClassifier(max_depth=val, random_state=42), X, y, cv=kf, scoring="accuracy")
+        print(f'Average score({val}): {"{:.3f}".format(score.mean())}')
+
+
+def arrange_data(dataframe):
+    dataframe["rating_new"] = dataframe["rating"]
+    dataframe.loc[(dataframe["rating"] <= 1), "rating_new"] = 1
+    dataframe.loc[(dataframe["rating"] > 1) & (dataframe["rating"] <= 2), "rating_new"] = 2
+    dataframe.loc[(dataframe["rating"] > 2) & (dataframe["rating"] <= 3), "rating_new"] = 3
+    dataframe.loc[(dataframe["rating"] > 3) & (dataframe["rating"] <= 4), "rating_new"] = 4
+    dataframe.loc[(dataframe["rating"] > 4), "rating_new"] = 5
+
+    dataframe["pages_new"] = dataframe["pages"]
+    dataframe.loc[(dataframe["pages"] <= 50), "pages_new"] = 0
+    dataframe.loc[(dataframe["pages"] > 50) & (dataframe["pages"] <= 300), "pages_new"] = 1
+    dataframe.loc[(dataframe["pages"] > 300), "pages_new"] = 2
+
+    dataframe["reviews_new"] = dataframe["reviews"]
+    dataframe.loc[(dataframe["reviews"] <= 50), "reviews_new"] = 0
+    dataframe.loc[(dataframe["reviews"] > 50) & (dataframe["reviews"] <= 200), "reviews_new"] = 1
+    dataframe.loc[(dataframe["reviews"] > 200), "reviews_new"] = 2
+
+    dataframe["totalratings_new"] = dataframe["totalratings"]
+    dataframe.loc[(dataframe["totalratings"] <= 1500), "totalratings_new"] = 0
+    dataframe.loc[(dataframe["totalratings"] > 1500) & (dataframe["totalratings"] <= 5000), "totalratings_new"] = 1
+    dataframe.loc[(dataframe["totalratings"] > 5000), "totalratings_new"] = 2

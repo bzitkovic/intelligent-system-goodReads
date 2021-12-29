@@ -28,10 +28,11 @@ COLOR_GREEN = "#78ab7c"
 
 
 class GUI:
-    def __init__(self, window, books, dataframe):
+    def __init__(self, window, books, dataframe, decision_tree):
         self.window = window
         self.books = books
         self.dataframe = dataframe
+        self.decision_tree = decision_tree
         self.configure_window()
         self.create_variables()
         self.create_UI()
@@ -79,9 +80,7 @@ class GUI:
         self.user_entry_frame.grid(row=0, column=1, pady=10, sticky="NEWS")
 
         self.visualization_frame = Frame(self.window, bg=COLOR_PURPLE)
-        self.visualization_frame.grid(
-            row=0, rowspan=2, column=0, pady=10, sticky="NEWS"
-        )
+        self.visualization_frame.grid(row=0, rowspan=2, column=0, pady=10, sticky="NEWS")
 
         self.checkbox_frame = Frame(self.window, bg=COLOR_PURPLE)
         self.checkbox_frame.grid(row=1, column=1, sticky="NEWS")
@@ -95,9 +94,7 @@ class GUI:
         self.create_recommend_button()
 
     def create_user_entry(self):
-        self.lbl_number = Label(
-            self.user_entry_frame, bg=COLOR_PURPLE, text="Number of pages:"
-        )
+        self.lbl_number = Label(self.user_entry_frame, bg=COLOR_PURPLE, text="Number of pages:")
         self.lbl_number.grid(row=0, column=0, padx=20, sticky="W")
 
         self.ent_number_of_pages = Entry(
@@ -107,9 +104,7 @@ class GUI:
         )
         self.ent_number_of_pages.grid(row=1, column=0, padx=25, pady=10, sticky="W")
 
-        self.lbl_rating = Label(
-            self.user_entry_frame, bg=COLOR_PURPLE, text="Minimum rating:"
-        )
+        self.lbl_rating = Label(self.user_entry_frame, bg=COLOR_PURPLE, text="Minimum rating:")
         self.lbl_rating.grid(row=2, column=0, padx=20, sticky="W")
 
         self.ent_rating = Entry(
@@ -148,9 +143,7 @@ class GUI:
         self.ent_total_ratings.grid(row=3, column=1, padx=25, pady=10, sticky="W")
 
     def create_checkboxes(self):
-        self.lbl_genre = Label(
-            self.checkbox_frame, bg=COLOR_PURPLE, text="Select prefered genre:"
-        )
+        self.lbl_genre = Label(self.checkbox_frame, bg=COLOR_PURPLE, text="Select prefered genre:")
         self.lbl_genre.grid(row=0, column=0, padx=20, sticky="W")
 
         self.chk1 = Checkbutton(
@@ -202,9 +195,7 @@ class GUI:
         self.chk6.grid(row=3, column=1, pady=5, sticky="W")
 
     def create_visualization(self):
-        self.lbl_get_heat_map = Label(
-            self.visualization_frame, bg=COLOR_PURPLE, text="Get heat map"
-        )
+        self.lbl_get_heat_map = Label(self.visualization_frame, bg=COLOR_PURPLE, text="Get heat map")
         self.lbl_get_heat_map.grid(row=0, column=0, padx=20, pady=10, sticky="W")
 
         self.btn_get_heat_map = Button(
@@ -217,9 +208,7 @@ class GUI:
         )
         self.btn_get_heat_map.grid(row=0, column=1)
 
-        self.lbl_get_boxplot_rating = Label(
-            self.visualization_frame, bg=COLOR_PURPLE, text="Get boxplot for rating"
-        )
+        self.lbl_get_boxplot_rating = Label(self.visualization_frame, bg=COLOR_PURPLE, text="Get boxplot for rating")
         self.lbl_get_boxplot_rating.grid(row=1, column=0, padx=20, pady=10, sticky="W")
 
         self.btn_get_boxplot_rating = Button(
@@ -254,9 +243,7 @@ class GUI:
             bg=COLOR_PURPLE,
             text="Get boxplot for total ratings",
         )
-        self.lbl_get_boxplot_total_ratings.grid(
-            row=3, column=0, padx=20, pady=10, sticky="W"
-        )
+        self.lbl_get_boxplot_total_ratings.grid(row=3, column=0, padx=20, pady=10, sticky="W")
 
         self.btn_get_boxplot_total_ratings = Button(
             self.visualization_frame,
@@ -268,9 +255,7 @@ class GUI:
         )
         self.btn_get_boxplot_total_ratings.grid(row=3, column=1)
 
-        self.lbl_get_top_genres = Label(
-            self.visualization_frame, bg=COLOR_PURPLE, text="Get top 8 genres"
-        )
+        self.lbl_get_top_genres = Label(self.visualization_frame, bg=COLOR_PURPLE, text="Get top 8 genres")
         self.lbl_get_top_genres.grid(row=4, column=0, padx=20, pady=10, sticky="W")
 
         self.btn_get_top_genres = Button(
@@ -283,9 +268,7 @@ class GUI:
         )
         self.btn_get_top_genres.grid(row=4, column=1)
 
-        self.lbl_get_tabloo_table = Label(
-            self.visualization_frame, bg=COLOR_PURPLE, text="Get table for data"
-        )
+        self.lbl_get_tabloo_table = Label(self.visualization_frame, bg=COLOR_PURPLE, text="Get table for data")
         self.lbl_get_tabloo_table.grid(row=5, column=0, padx=20, pady=10, sticky="W")
 
         self.btn_get_tabloo_table = Button(
@@ -323,9 +306,7 @@ class GUI:
     def create_popup(self, dataframe, message):
         self.popup_window = Toplevel(self.window, bg=COLOR_PURPLE)
         self.popup_window.title("Recommended books")
-        self.popup_window.geometry(
-            f"600x200+{WINDOW_Y_OFFSET+100}+{WINDOW_X_OFFSET+75}"
-        )
+        self.popup_window.geometry(f"600x200+{WINDOW_Y_OFFSET+100}+{WINDOW_X_OFFSET+75}")
 
         self.popup_frame = Frame(self.popup_window, bg=COLOR_PURPLE)
         self.popup_frame.grid(row=0, column=0, pady=30, padx=55)
