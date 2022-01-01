@@ -36,7 +36,7 @@ def make_decision_tree(dataframe):
 
 
 def make_prediction_total_rating(clf, dataframe):
-    print(clf.predict(dataframe[feature_columns]))
+    return clf.predict(dataframe[feature_columns])
 
 
 def decision_tree_cross_validation(X, y):
@@ -81,5 +81,5 @@ def arrange_data(dataframe):
 
     dataframe["totalratings_new"] = dataframe["totalratings"]
     dataframe.loc[(dataframe["totalratings"] <= 1500), "totalratings_new"] = 0
-    dataframe.loc[(dataframe["totalratings"] > 1500) & (dataframe["totalratings"] <= 5000), "totalratings_new"] = 1
-    dataframe.loc[(dataframe["totalratings"] > 5000), "totalratings_new"] = 2
+    dataframe.loc[(dataframe["totalratings"] > 1500) & (dataframe["totalratings"] <= 8000), "totalratings_new"] = 1
+    dataframe.loc[(dataframe["totalratings"] > 8000), "totalratings_new"] = 2

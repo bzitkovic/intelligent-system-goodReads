@@ -15,7 +15,11 @@ from visualization import (
     get_heat_map,
     get_histogram_genres,
     get_tabloo_table,
+    get_decision_tree,
+    FEATURE_COLUMNS,
 )
+from pandas import DataFrame
+from decision_tree_model import make_decision_tree, make_prediction_total_rating
 
 WINDOW_TITLE = "Good Reads"
 WINDOW_X_OFFSET = int(1080 / 3 - 100)
@@ -39,7 +43,7 @@ class GUI:
 
     def configure_window(self):
         self.window.title(WINDOW_TITLE)
-        self.window.geometry(f"800x400+{WINDOW_Y_OFFSET}+{WINDOW_X_OFFSET}")
+        self.window.geometry(f"800x420+{WINDOW_Y_OFFSET}+{WINDOW_X_OFFSET}")
         self.window.configure(bg=COLOR_PURPLE)
         self.window.resizable(WINDOW_IS_RESIZABLE, WINDOW_IS_RESIZABLE)
 
@@ -57,7 +61,6 @@ class GUI:
         self.ent_number_of_pages_variable = StringVar()
         self.ent_minimum_rating_variable = StringVar()
         self.ent_minimum_reviews_variable = StringVar()
-        self.ent_minimum_total_ratings_variable = StringVar()
 
         self.chk_options = [
             self.chk1_variable,
@@ -72,7 +75,6 @@ class GUI:
             self.ent_number_of_pages_variable,
             self.ent_minimum_rating_variable,
             self.ent_minimum_reviews_variable,
-            self.ent_minimum_total_ratings_variable,
         ]
 
     def create_UI(self):
@@ -94,7 +96,7 @@ class GUI:
         self.create_recommend_button()
 
     def create_user_entry(self):
-        self.lbl_number = Label(self.user_entry_frame, bg=COLOR_PURPLE, text="Number of pages:")
+        self.lbl_number = Label(self.user_entry_frame, bg=COLOR_PURPLE, text="Minimun number of pages:")
         self.lbl_number.grid(row=0, column=0, padx=20, sticky="W")
 
         self.ent_number_of_pages = Entry(
@@ -127,20 +129,6 @@ class GUI:
             textvariable=self.ent_minimum_reviews_variable,
         )
         self.ent_reviews.grid(row=1, column=1, padx=25, pady=10, sticky="W")
-
-        self.lbl_total_ratings = Label(
-            self.user_entry_frame,
-            bg=COLOR_PURPLE,
-            text="Minimum number od total ratings:",
-        )
-        self.lbl_total_ratings.grid(row=2, column=1, padx=20, sticky="W")
-
-        self.ent_total_ratings = Entry(
-            self.user_entry_frame,
-            width=30,
-            textvariable=self.ent_minimum_total_ratings_variable,
-        )
-        self.ent_total_ratings.grid(row=3, column=1, padx=25, pady=10, sticky="W")
 
     def create_checkboxes(self):
         self.lbl_genre = Label(self.checkbox_frame, bg=COLOR_PURPLE, text="Select prefered genre:")
@@ -281,6 +269,19 @@ class GUI:
         )
         self.btn_get_tabloo_table.grid(row=5, column=1, padx=20, pady=10)
 
+        self.lbl_get_tree_image = Label(self.visualization_frame, bg=COLOR_PURPLE, text="Get tree model")
+        self.lbl_get_tree_image.grid(row=6, column=0, padx=20, pady=10, sticky="W")
+
+        self.btn_get_tree_image = Button(
+            self.visualization_frame,
+            text="➔",
+            width=6,
+            bd=3,
+            bg=COLOR_GREEN,
+            command=lambda: get_decision_tree(self.decision_tree, FEATURE_COLUMNS),
+        )
+        self.btn_get_tree_image.grid(row=6, column=1, padx=20, pady=10)
+
     def create_recommend_button(self):
         self.btn_get_user_entry = Button(
             self.recommend_frame,
@@ -293,20 +294,44 @@ class GUI:
         self.btn_get_user_entry.pack()
 
     def recommend_books(self):
+        predicted_books = []
+        total_rating_books = 0
         checked_options = self.get_checked_options()
-        # TODO: get entry values
+        entries = self.get_all_entries()
 
-        # TODO: create dataframe with recommended books
-        # TODO: pass dataframe and message to create_popup
+        user_input = {"pages_new": [entries[0]], "rating_new": [entries[2]], "reviews_new": [entries[1]]}
+        dataframe = DataFrame(data=user_input)
+
+        total_rating_prediction = make_prediction_total_rating(self.decision_tree, dataframe)
+        if total_rating_prediction == 1:
+            total_rating_books = 1500
+        if total_rating_prediction == 2:
+            total_rating_books = 8000
+        else:
+            total_rating_books = 3820000
+
+        for book in self.books:
+            if book.total_ratings <= total_rating_books:
+                for genre in book.genres:
+                    if genre in checked_options:
+                        predicted_books.append(book)
+
+        dataframe = DataFrame(data=predicted_books)
+
         self.create_popup(
-            self.dataframe,
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
+            dataframe,
+            f"Your entries were:\
+            \nMinimun number of pages: {entries[0]}\
+            \nMinimun rating: {entries[2]}\
+            \nMinimun number of reviews: {entries[1]}\
+            \nGenres: {checked_options}\
+            \n\nBased on your entries total rating was predicted and books with your genres were chosen!",
         )
 
     def create_popup(self, dataframe, message):
         self.popup_window = Toplevel(self.window, bg=COLOR_PURPLE)
         self.popup_window.title("Recommended books")
-        self.popup_window.geometry(f"600x200+{WINDOW_Y_OFFSET+100}+{WINDOW_X_OFFSET+75}")
+        self.popup_window.geometry(f"600x250+{WINDOW_Y_OFFSET+100}+{WINDOW_X_OFFSET+75}")
 
         self.popup_frame = Frame(self.popup_window, bg=COLOR_PURPLE)
         self.popup_frame.grid(row=0, column=0, pady=30, padx=55)
@@ -347,3 +372,12 @@ class GUI:
             chk_checked_values.append("Childrens")
 
         return chk_checked_values
+
+    def get_all_entries(self):
+        entries = []
+
+        entries.append(self.ent_number_of_pages_variable.get())
+        entries.append(self.ent_minimum_reviews_variable.get())
+        entries.append(self.ent_minimum_rating_variable.get())
+
+        return entries

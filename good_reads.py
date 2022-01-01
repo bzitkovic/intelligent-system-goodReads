@@ -47,16 +47,7 @@ if __name__ == "__main__":
 
     # above_total_rating = dataframe[(dataframe['totalratings'] > total_rating) & (dataframe['reviews'] == 1214)]
 
-    # This all below needs to be removed from here (except gui) - here just for testing
     decision_tree = make_decision_tree(dataframe)
-
-    user_input = {"pages_new": [200], "rating_new": [5], "reviews_new": [100]}
-    df = DataFrame(data=user_input)
-
-    make_prediction_total_rating(decision_tree, df)
-
-    feature_columns = ["rating_new", "pages_new", "reviews_new"]
-    get_decision_tree(decision_tree, feature_columns)
 
     window = Tk()
     gui = GUI(window, books, dataframe, decision_tree)

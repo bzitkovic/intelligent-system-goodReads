@@ -5,6 +5,8 @@ from tabloo import show
 from sklearn.tree import plot_tree
 from threading import Thread
 
+FEATURE_COLUMNS = ["rating_new", "pages_new", "reviews_new"]
+
 
 def get_heat_map(dataframe):
     corr = dataframe.corr()
