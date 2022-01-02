@@ -6,10 +6,12 @@ from tkinter import (
     IntVar,
     StringVar,
     Frame,
+    Tk,
     Toplevel,
     font,
 )
 from tkinter.constants import CENTER
+from models import Book
 from visualization import (
     get_box_plot,
     get_heat_map,
@@ -20,6 +22,7 @@ from visualization import (
 )
 from pandas import DataFrame
 from decision_tree_model import make_decision_tree, make_prediction_total_rating
+from sklearn.tree import DecisionTreeClassifier
 
 WINDOW_TITLE = "Good Reads"
 WINDOW_X_OFFSET = int(1080 / 3 - 100)
@@ -32,7 +35,7 @@ COLOR_GREEN = "#78ab7c"
 
 
 class GUI:
-    def __init__(self, window, books, dataframe, decision_tree):
+    def __init__(self, window: Tk, books: list[Book], dataframe: DataFrame, decision_tree: DecisionTreeClassifier):
         self.window = window
         self.books = books
         self.dataframe = dataframe
@@ -333,7 +336,7 @@ class GUI:
             \n\nBased on your entries total rating was predicted and books with your genres were chosen!",
         )
 
-    def create_popup(self, dataframe, message):
+    def create_popup(self, dataframe: DataFrame, message: str):
         self.popup_window = Toplevel(self.window, bg=COLOR_PURPLE)
         self.popup_window.title("Recommended books")
         self.popup_window.geometry(f"600x250+{WINDOW_Y_OFFSET+100}+{WINDOW_X_OFFSET+75}")
@@ -378,7 +381,7 @@ class GUI:
 
         return chk_checked_values
 
-    def get_all_entries(self):
+    def get_all_entries(self) -> list[str]:
         entries = []
 
         entries.append(self.ent_number_of_pages_variable.get())
