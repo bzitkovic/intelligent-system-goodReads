@@ -388,4 +388,8 @@ class GUI:
         entries.append(self.ent_minimum_reviews_variable.get())
         entries.append(self.ent_minimum_rating_variable.get())
 
+        for i in range(len(entries)):
+            if entries[i] == '':
+                entries[i] = '0'
+
         return entries
