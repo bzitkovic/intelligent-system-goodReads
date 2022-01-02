@@ -303,9 +303,9 @@ class GUI:
         dataframe = DataFrame(data=user_input)
 
         total_rating_prediction = make_prediction_total_rating(self.decision_tree, dataframe)
-        if total_rating_prediction == 1:
+        if total_rating_prediction == 0:
             total_rating_books = 1500
-        if total_rating_prediction == 2:
+        if total_rating_prediction == 1:
             total_rating_books = 8000
         else:
             total_rating_books = 3820000
@@ -313,7 +313,12 @@ class GUI:
         for book in self.books:
             if book.total_ratings <= total_rating_books:
                 for genre in book.genres:
-                    if genre in checked_options:
+                    if (
+                        genre in checked_options
+                        and book.pages >= int(entries[0])
+                        and book.rating >= int(entries[2])
+                        and book.reviews >= int(entries[1])
+                    ):
                         predicted_books.append(book)
 
         dataframe = DataFrame(data=predicted_books)
