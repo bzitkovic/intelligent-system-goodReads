@@ -72,6 +72,6 @@ def get_tabloo_table(dataframe: DataFrame):
 
 
 def get_decision_tree(clf: DecisionTreeClassifier, feature_columns: list[str]):
-    plt.figure(figsize=(10, 5), tight_layout=True)
+    plt.figure(figsize=(20, 10), tight_layout=True)
     plot_tree(clf, feature_names=feature_columns, filled=True)
     plt.show()
