@@ -11,6 +11,7 @@ from tkinter import (
     font,
 )
 from tkinter.constants import CENTER
+from typing import List
 from models import Book
 from visualization import (
     get_box_plot,
@@ -36,7 +37,7 @@ COLOR_GREEN = "#78ab7c"
 
 
 class GUI:
-    def __init__(self, window: Tk, books: list[Book], dataframe: DataFrame, decision_tree: DecisionTreeClassifier):
+    def __init__(self, window: Tk, books: List[Book], dataframe: DataFrame, decision_tree: DecisionTreeClassifier):
         self.window = window
         self.books = books
         self.dataframe = dataframe
@@ -382,7 +383,7 @@ class GUI:
 
         return chk_checked_values
 
-    def get_all_entries(self) -> list[str]:
+    def get_all_entries(self) -> List[str]:
         entries = []
 
         entries.append(self.ent_number_of_pages_variable.get())

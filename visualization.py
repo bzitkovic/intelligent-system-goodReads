@@ -1,3 +1,4 @@
+from typing import List
 from pandas import DataFrame
 import matplotlib.pyplot as plt
 from numpy import arange, around, round
@@ -49,7 +50,7 @@ def get_box_plot(dataframe: DataFrame, columnName: str):
     plt.show()
 
 
-def get_histogram_genres(books: list[Book]):
+def get_histogram_genres(books: List[Book]):
     genres = {}
 
     for book in books:
@@ -71,7 +72,7 @@ def get_tabloo_table(dataframe: DataFrame):
     new_thead.start()
 
 
-def get_decision_tree(clf: DecisionTreeClassifier, feature_columns: list[str]):
+def get_decision_tree(clf: DecisionTreeClassifier, feature_columns: List[str]):
     plt.figure(figsize=(20, 10), tight_layout=True)
     plot_tree(clf, feature_names=feature_columns, filled=True)
     plt.show()

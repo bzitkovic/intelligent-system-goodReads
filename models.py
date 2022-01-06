@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import List
 
 
 @dataclass
@@ -6,7 +7,7 @@ class Book:
     author: str
     book_format: str
     description: str
-    genres: list[str]
+    genres: List[str]
     isbn: str
     link: str
     pages: int

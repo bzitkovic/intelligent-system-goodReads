@@ -1,3 +1,4 @@
+from typing import List
 from pandas.core.frame import DataFrame
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
@@ -39,7 +40,7 @@ def make_prediction_total_rating(clf: DecisionTreeClassifier, dataframe: DataFra
     return clf.predict(dataframe[feature_columns])
 
 
-def decision_tree_cross_validation(X: list, y: list):
+def decision_tree_cross_validation(X: List, y: List):
     max_depth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
     kf = KFold(n_splits=5, shuffle=True, random_state=42)
