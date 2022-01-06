@@ -11,6 +11,7 @@ from tkinter import (
     font,
 )
 from tkinter.constants import CENTER
+from typing import List
 from models import Book
 from visualization import (
     get_box_plot,
@@ -23,6 +24,7 @@ from visualization import (
 from pandas import DataFrame
 from decision_tree_model import make_decision_tree, make_prediction_total_rating
 from sklearn.tree import DecisionTreeClassifier
+from numpy import round
 
 WINDOW_TITLE = "Good Reads"
 WINDOW_X_OFFSET = int(1080 / 3 - 100)
@@ -35,7 +37,7 @@ COLOR_GREEN = "#78ab7c"
 
 
 class GUI:
-    def __init__(self, window: Tk, books: list[Book], dataframe: DataFrame, decision_tree: DecisionTreeClassifier):
+    def __init__(self, window: Tk, books: List[Book], dataframe: DataFrame, decision_tree: DecisionTreeClassifier):
         self.window = window
         self.books = books
         self.dataframe = dataframe
@@ -281,7 +283,7 @@ class GUI:
             width=6,
             bd=3,
             bg=COLOR_GREEN,
-            command=lambda: get_decision_tree(self.decision_tree, FEATURE_COLUMNS),
+            command=lambda: self.generate_decision_tree(),
         )
         self.btn_get_tree_image.grid(row=6, column=1, padx=20, pady=10)
 
@@ -381,7 +383,7 @@ class GUI:
 
         return chk_checked_values
 
-    def get_all_entries(self) -> list[str]:
+    def get_all_entries(self) -> List[str]:
         entries = []
 
         entries.append(self.ent_number_of_pages_variable.get())
@@ -393,3 +395,12 @@ class GUI:
                 entries[i] = '0'
 
         return entries
+    
+    def generate_decision_tree(self):
+        # extract importance
+        print("\n")
+        importance = DataFrame({'feature': FEATURE_COLUMNS, 'importance' : round(self.decision_tree.feature_importances_, 3)})
+        importance.sort_values('importance', ascending=False, inplace=True)
+        print(importance)
+        
+        get_decision_tree(self.decision_tree, FEATURE_COLUMNS)
