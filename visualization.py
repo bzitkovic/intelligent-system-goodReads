@@ -1,6 +1,6 @@
 from pandas import DataFrame
 import matplotlib.pyplot as plt
-from numpy import arange, around
+from numpy import arange, around, round
 from tabloo import show
 from sklearn.tree import plot_tree
 from threading import Thread
@@ -72,6 +72,12 @@ def get_tabloo_table(dataframe: DataFrame):
 
 
 def get_decision_tree(clf: DecisionTreeClassifier, feature_columns: list[str]):
+    # extract importance
+    print("\n")
+    importance = DataFrame({'feature': feature_columns, 'importance' : round(clf.feature_importances_, 3)})
+    importance.sort_values('importance', ascending=False, inplace=True)
+    print(importance)
+
     plt.figure(figsize=(20, 10), tight_layout=True)
     plot_tree(clf, feature_names=feature_columns, filled=True)
     plt.show()
