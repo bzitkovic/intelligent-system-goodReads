@@ -23,6 +23,7 @@ from visualization import (
 from pandas import DataFrame
 from decision_tree_model import make_decision_tree, make_prediction_total_rating
 from sklearn.tree import DecisionTreeClassifier
+from numpy import round
 
 WINDOW_TITLE = "Good Reads"
 WINDOW_X_OFFSET = int(1080 / 3 - 100)
@@ -281,7 +282,7 @@ class GUI:
             width=6,
             bd=3,
             bg=COLOR_GREEN,
-            command=lambda: get_decision_tree(self.decision_tree, FEATURE_COLUMNS),
+            command=lambda: self.generate_decision_tree(),
         )
         self.btn_get_tree_image.grid(row=6, column=1, padx=20, pady=10)
 
@@ -393,3 +394,12 @@ class GUI:
                 entries[i] = '0'
 
         return entries
+    
+    def generate_decision_tree(self):
+        # extract importance
+        print("\n")
+        importance = DataFrame({'feature': FEATURE_COLUMNS, 'importance' : round(self.decision_tree.feature_importances_, 3)})
+        importance.sort_values('importance', ascending=False, inplace=True)
+        print(importance)
+        
+        get_decision_tree(self.decision_tree, FEATURE_COLUMNS)
