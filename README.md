@@ -7,7 +7,7 @@ The project is a system that recommends books for users based on their preferenc
 * The system must be able to recommend more than one book to the user, if possible
 * The book must be described in detail when offered to the user
 
-The system also uses decision tree as a method for chosing the best books for the user.
+The system also uses a decision tree as a method for choosing the best books for the user.
 
 ### Built With
 * [Python](https://www.python.org/)
