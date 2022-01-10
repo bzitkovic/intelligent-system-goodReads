@@ -16,10 +16,9 @@ The system also uses a decision tree as a method for choosing the best books for
 
 ### Prerequisites
 
-You will need pandas and sckit-learn libraries to run the program.
+You will need matplotlib, tabloo, pandas and sckit-learn libraries to run the program.
   ```sh
-  pip install scikit-learn
-  pip install pandas
+  pip install -r requirements.txt
   ```
   
 ### Installation
