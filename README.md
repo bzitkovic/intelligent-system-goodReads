@@ -9,6 +9,8 @@ The project is a system that recommends books for users based on their preferenc
 
 The system also uses a decision tree as a method for choosing the best books for the user.
 
+Data source: https://www.kaggle.com/mdhamani/goodreads-books-100k
+
 ### Built With
 * [Python](https://www.python.org/)
 * [Pandas](https://pandas.pydata.org/)
